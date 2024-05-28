@@ -1,10 +1,5 @@
-from django.shortcuts import render
+from django.http import JsonResponse
 
-# Create your views here.
-from rest_framework import generics
-from .models import YourModel
-from .serializers import YourModelSerializer
-
-class YourModelListView(generics.ListAPIView):
-    queryset = YourModel.objects.all()
-    serializer_class = YourModelSerializer
+def user_api(request):
+    data = {"message": "Hello, React Native!"}
+    return JsonResponse(data)

@@ -1,8 +1,25 @@
-fetch('http://your-django-backend/api/your-models/')
-    .then(response => response.json())
-    .then(data => {
-        // Handle the data
-    })
-    .catch(error => {
-        // Handle errors
-    });
+import React, { useEffect, useState } from 'react';
+import { Text, View } from 'react-native';
+import axios from 'axios';
+
+const App = () => {
+    const [data, setData] = useState(null);
+
+    useEffect(() => {
+        axios.get('http://localhost:8000/api/')
+            .then(response => {
+            setData(response.data);
+        })
+        .catch(error => {
+            console.error(error);
+        });
+    }, []);
+
+    return (
+        <View>
+            <Text>{data ? data.message : 'Loading...'}</Text>
+        </View>
+    );
+};
+
+export default App;
