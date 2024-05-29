@@ -12,10 +12,10 @@ import requests
 
 from .serializers import (
     UserSerializer,
-    UserProfile_Serializer,
+    UserProfileSerializer,
     BarSerializer,
-    BarProfile_Serializer,
-    PromotionPost_Serializer,
+    BarProfileSerializer,
+    PromotionPostSerializer,
     CommentSerializer,
     GetPostSerializer
 )
@@ -74,7 +74,7 @@ class GetAuthUserView(APIView):
 class Users_ProfilesView(APIView):
     def get(self, request):
         user_profiles = UserProfile.objects.all()
-        user_data = UserProfile_Serializer(user_profiles, many=True).data
+        user_data = UserProfileSerializer(user_profiles, many=True).data
         return Response(data=user_data, status=status.HTTP_200_OK)
     
 class UserProfile_View(APIView):
@@ -87,7 +87,7 @@ class UserProfile_View(APIView):
         except ObjectDoesNotExist:
             return Response(data={'error': "No profile found"}, status=status.HTTP_404_NOT_FOUND)
         
-        profile_data = UserProfile_Serializer(request.user.profile).data
+        profile_data = UserProfileSerializer(request.user.profile).data
         return Response(data=profile_data, status=status.HTTP_200_OK)
     
     def delete(self, request):
@@ -98,7 +98,7 @@ class single_UserProfile_View(APIView):
     def get(self, request, *args, **kwargs):
         try:
             user = User.objects.get(id=kwargs.get('id'))
-            profile_data = UserProfile_Serializer(user.profile).data
+            profile_data = UserProfileSerializer(user.profile).data
             return Response(data=profile_data, status=status.HTTP_200_OK)
             
         except ObjectDoesNotExist:
@@ -150,7 +150,7 @@ class GetAuthBarView(APIView):
 class Bar_ProfilesView(APIView):
     def get(self, request):
         bar_profiles = BarProfile.objects.all()
-        bar_data = BarProfile_Serializer(bar_profiles, many=True).data
+        bar_data = BarProfileSerializer(bar_profiles, many=True).data
         return Response(data=bar_data, status=status.HTTP_200_OK)
     
 class BarProfile_View(APIView):
@@ -163,7 +163,7 @@ class BarProfile_View(APIView):
         except ObjectDoesNotExist:
             return Response(data={'error': "No profile found"}, status=status.HTTP_404_NOT_FOUND)
         
-        profile_data = BarProfile_Serializer(request.user.profile).data
+        profile_data = BarProfileSerializer(request.user.profile).data
         return Response(data=profile_data, status=status.HTTP_200_OK)
     
     def delete(self, request):
@@ -174,7 +174,7 @@ class single_BarProfile_View(APIView):
     def get(self, request, *args, **kwargs):
         try:
             bar = Bar.objects.get(id=kwargs.get('id'))
-            profile_data = BarProfile_Serializer(bar.profile).data
+            profile_data = BarProfileSerializer(bar.profile).data
             return Response(data=profile_data, status=status.HTTP_200_OK)
             
         except ObjectDoesNotExist:
@@ -195,11 +195,11 @@ class PostView(APIView):
                 return Response({'error': "No post found"}, status=status.HTTP_404_NOT_FOUND)
         else:
             posts = PromotionPost.objects.all()
-            posts_data = PromotionPost_Serializer(posts, many=True).data
+            posts_data = PromotionPostSerializer(posts, many=True).data
             return Response(data=posts_data, status=status.HTTP_200_OK)
 
     def post(self, request, *args, **kwargs):
-        serializer = PromotionPost_Serializer(data=request.data)
+        serializer = PromotionPostSerializer(data=request.data)
         if serializer.is_valid():
             serializer.save(bar=request.bar, name=request.bar.name, avatar=request.bar.avatar)
             return Response(data=serializer.data, status=status.HTTP_201_CREATED)
