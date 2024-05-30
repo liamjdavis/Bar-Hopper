@@ -35,6 +35,12 @@ class User(AbstractBaseUser):
     REQUIRED_FIELDS = ['name']
 
     objects = UserManager()
+    
+    def get_friends(self):
+        return [friendship.friend for friendship in self.friend_set.all()]
+
+    def get_followed_bars(self):
+        return [follow.bar for follow in self.following_set.all()]
 
     def __str__(self):
         return self.email
@@ -46,6 +52,13 @@ class UserProfile(models.Model):
 
     def __str__(self):
         return self.user.name
+
+class Friendship(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='friend_set')
+    friend = models.ForeignKey(User, on_delete=models.CASCADE, related_name='friended_by_set')
+
+    class Meta:
+        unique_together = ('user', 'friend')
 
 class SetLocation(models.Model):
     user = models.ForeignKey(UserProfile, on_delete=models.CASCADE, related_name='set_locations')
@@ -91,6 +104,9 @@ class Bar(AbstractBaseUser):
 
     objects = BarManager()
 
+    def get_followers(self):
+        return [follow.user for follow in self.followed_by_set.all()]
+    
     def __str__(self):
         return self.email
 
@@ -99,6 +115,13 @@ class BarProfile(models.Model):
     location = models.CharField(max_length=255, blank=True)
     hours = models.CharField(max_length=255, blank=True)
     future_promotions = models.CharField(max_length=255, blank=True)
+
+class BarFollow(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='following_set')
+    bar = models.ForeignKey(Bar, on_delete=models.CASCADE, related_name='followed_by_set')
+
+    class Meta:
+        unique_together = ('user', 'bar')
 
 class PromotionPost(models.Model):
     bar = models.ForeignKey(Bar, on_delete=models.CASCADE, related_name='promotions')
