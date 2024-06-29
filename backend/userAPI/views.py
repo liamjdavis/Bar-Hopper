@@ -36,13 +36,17 @@ User Views
 '''
 class UserView(APIView):
     def post(self, request):
+        print(request.data)
         serializer = UserSerializer(data=request.data)
 
         if serializer.is_valid():
+            print("serializer is valid")
             serializer.save()
             token = Token.objects.get(user_id=serializer.data.get('id'))
             return Response(data={'token': token.key}, status=status.HTTP_201_CREATED)
         else:
+            print("serializer is not valid")
+            print(serializer.errors)
             return Response(data=serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 class GetAuthUserView(APIView):

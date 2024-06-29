@@ -1,21 +1,43 @@
+import React from 'react';
 import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, View } from 'react-native';
-import Landing from './components/layout/Landing'; // make sure the path is correct
 
-export default function App() {
-  return (
-    <View style={styles.container}>
-      <Landing />
-      <StatusBar style="auto" />
-    </View>
-  );
-}
+import { Provider } from 'react-redux';
+
+import { NavigationContainer } from '@react-navigation/native';
+import { createStackNavigator } from '@react-navigation/stack';
+
+import Landing from './components/layout/Landing-Login';
+import BarLogin from './components/auth/bar_login';
+import UserLogin from './components/auth/user_login';
+import Register from './components/auth/register';
+import BarRegister from './components/auth/bar_register';
+import UserRegister from './components/auth/user_register';
+
+const Stack = createStackNavigator();
+
+const App = () => {
+    return (
+        <View style={styles.container}>
+            <NavigationContainer>
+                <Stack.Navigator initialRouteName="Landing">
+                <Stack.Screen name="Landing" component={Landing} />
+                <Stack.Screen name="BarLogin" component={BarLogin} />
+                <Stack.Screen name="UserLogin" component={UserLogin} />
+                <Stack.Screen name="Register" component={Register} />
+                <Stack.Screen name="BarRegister" component={BarRegister} />
+                <Stack.Screen name="UserRegister" component={UserRegister} />
+                </Stack.Navigator>
+            </NavigationContainer>
+        </View>
+    );
+};
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
+    backgroundColor: '#FFFFFF',
   },
 });
+
+export default App;

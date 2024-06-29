@@ -35,7 +35,7 @@ class User(AbstractBaseUser):
     REQUIRED_FIELDS = ['name']
 
     objects = UserManager()
-    
+
     def get_friends(self):
         return [friendship.friend for friendship in self.friend_set.all()]
 
@@ -106,7 +106,7 @@ class Bar(AbstractBaseUser):
 
     def get_followers(self):
         return [follow.user for follow in self.followed_by_set.all()]
-    
+
     def __str__(self):
         return self.email
 
