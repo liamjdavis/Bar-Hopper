@@ -1,10 +1,19 @@
 import React from 'react';
-import { View, Text, StyleSheet } from 'react-native';
+import { View, Text, StyleSheet, Image } from 'react-native';
+
+const logo = require('../../assets/logo.png')
 
 const Home = () => {
     return (
         <View style={styles.container}>
-            <Text>Home Screen</Text>
+            <View style={styles.leftContainer}>
+                {/* Logo */}
+                <Image source={logo} style={styles.logo} />
+            </View>
+            <View style={styles.centerContainer}>
+                {/* Bar Hopper Header */}
+                <Text style={styles.headerText}>Bar Hopper</Text>
+            </View>
         </View>
     );
 };
@@ -12,8 +21,25 @@ const Home = () => {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        justifyContent: 'center',
+        flexDirection: 'row',
+        alignItems: 'flex-start',
+    },
+    leftContainer: {
+        flex: 1,
+        alignItems: 'flex-start',
+    },
+    centerContainer: {
+        flex: 3,
         alignItems: 'center',
+    },
+    logo: {
+        width: 50,
+        height: 50,
+        resizeMode: 'contain',
+    },
+    headerText: {
+        fontSize: 40,
+        fontWeight: 'bold',
     },
 });
 
