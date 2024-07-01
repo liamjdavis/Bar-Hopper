@@ -1,7 +1,8 @@
 import React, { createContext, useState } from 'react';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { NavigationContainer } from '@react-navigation/native';
-import { IonIcons } from '@expo/vector-icons';
+import { Ionicons } from '@expo/vector-icons';
+import { Image } from 'react-native';
 
 import map from '../../assets/map-logo.png';
 import friends from '../../assets/friends-logo.png';
@@ -31,27 +32,22 @@ export default function NavBar() {
         <Tab.Navigator
             screenOptions={({ route }) => ({
                 tabBarIcon: ({ focused, color, size }) => {
-                    let iconName;
+                    let iconSource;
 
                     if (route.name === 'Home') {
-                        iconName = map;
+                        iconSource = map;
                     } else if (route.name === 'Friends') {
-                        iconName = friends;
+                        iconSource = friends;
                     } else if (route.name === 'Promos') {
-                        iconName = promos;
+                        iconSource = promos;
                     }
 
-                    // You can now access the icon context using the useContext Hook
-                    const { setIcon } = React.useContext(IconContext);
-                    setIcon(iconName);
-
-                    return <IonIcons name={iconName} size={size} color={color} />;
+                    return <Image source={iconSource} style={{ width: size, height: size, tintColor: color }} resizeMode="contain" />;
                 },
+                tabBarActiveTintColor: 'tomato',
+                tabBarInactiveTintColor: 'gray',
+                tabBarStyle: [{ display: 'flex' }, null],
             })}
-            tabBarOptions={{
-                activeTintColor: 'tomato',
-                inactiveTintColor: 'gray',
-            }}
         >
             <Tab.Screen name="Home" component={HomeScreen} />
             <Tab.Screen name="Friends" component={FriendsScreen} />
