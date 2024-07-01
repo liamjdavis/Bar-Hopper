@@ -14,13 +14,20 @@ import Register from './components/auth/register';
 import BarRegister from './components/auth/bar_register';
 import UserRegister from './components/auth/user_register';
 
+import Home from './components/layout/Home';
+import Friends from './components/layout/Friends';
+import Promos from './components/layout/Promos';
+
 const Stack = createStackNavigator();
 
 const App = () => {
     return (
         <View style={styles.container}>
             <NavigationContainer>
-                <Stack.Navigator initialRouteName="Landing">
+                <Stack.Navigator initialRouteName="Home">
+                <Stack.Screen name="Home" component={Home} />
+                <Stack.Screen name="Friends" component={Friends} />
+                <Stack.Screen name="Promos" component={Promos} />
                 <Stack.Screen name="Landing" component={Landing} />
                 <Stack.Screen name="BarLogin" component={BarLogin} />
                 <Stack.Screen name="UserLogin" component={UserLogin} />
