@@ -8,9 +8,9 @@ import map from '../../assets/map-logo.png';
 import friends from '../../assets/friends-logo.png';
 import promos from '../../assets/promos-logo.png';
 
-import HomeScreen from './Home';
-import FriendsScreen from './Friends';
-import PromosScreen from './Promos';
+import HomeScreen from './mainPages/Home';
+import FriendsScreen from './mainPages/Friends';
+import PromosScreen from './mainPages/Promos';
 
 const Tab = createBottomTabNavigator();
 
