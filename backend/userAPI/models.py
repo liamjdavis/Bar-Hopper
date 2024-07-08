@@ -11,6 +11,8 @@ class UserManager(BaseUserManager):
     use_in_migrations = True
 
     def create_user(self, name, email, password=None):
+        print("User Manager create_user()")
+
         if not email:
             raise ValueError('Users must have an email address')
 
@@ -21,9 +23,19 @@ class UserManager(BaseUserManager):
         name = name.strip()
         user = self.model(name=name, email=email)
         user.set_password(password)
+        print("User before save: ", user.__dict__)  # Print user details before save
         user.save(using=self._db)
+        print("User after save: ", user.__dict__)  # Print user details after save
+
+        # Query the database for the user
+        try:
+            user_in_db = User.objects.get(email=email)
+            print("User found in database: ", user_in_db.email)
+        except User.DoesNotExist:
+            print("User does not exist in database")
 
         return user
+
 
 class User(AbstractBaseUser):
     name = models.CharField(max_length=255)

@@ -1,6 +1,7 @@
 from rest_framework import serializers
 from rest_framework.authtoken.models import Token
 from django.contrib.auth import get_user_model
+from django.db import transaction
 from .models import (
     UserProfile,
     Friendship,
@@ -16,25 +17,43 @@ from .models import (
 User Serializers
 
 '''
+User = get_user_model()
+
+
 class UserSerializer(serializers.ModelSerializer):
     friends = serializers.SerializerMethodField()
 
     class Meta:
-        model = get_user_model()
+        model = User
         fields = ['id', 'name', 'email', 'date', 'password', 'profile_picture', 'friends']
         extra_kwargs = {'password': {'write_only': True, 'required': True}}
 
     def get_friends(self, obj):
         return [friend.email for friend in obj.get_friends()]
 
+    @transaction.atomic
     def create(self, validated_data):
+        print("User Serializer create()")
+        print("Validated data: ", validated_data)
+
         user = User.objects.create_user(**validated_data)
-        user.save()
-        print(user)
-        print(type(user))
-        Token.objects.get_or_create(user=user)
-        print("user created")
-        return user
+        print("User before tokenization ", user.__dict__)
+        print("User created, about to tokenize")
+
+        try:
+            token, created = Token.objects.get_or_create(user=user)
+            if created:
+                print("Token created: ", token.key)
+            else:
+                print("Token already exists for user: ", token.key)
+            print("User and Token creation successful")
+
+            # Ensuring transaction is committed
+            transaction.on_commit(lambda: print("Transaction committed successfully"))
+            return user
+        except Exception as e:
+            print("Error during token creation: ", str(e))
+            raise serializers.ValidationError({"error": "Token creation failed"})
 
 class UserProfileSerializer(serializers.ModelSerializer):
     class Meta:

@@ -41,9 +41,18 @@ class UserView(APIView):
 
         if serializer.is_valid():
             print("serializer is valid")
-            serializer.save()
-            token = Token.objects.get(user_id=serializer.data.get('id'))
-            return Response(data={'token': token.key}, status=status.HTTP_201_CREATED)
+            try:
+                user = serializer.save()
+                token = Token.objects.get(user=user)
+                print("Token retrieved: ", token.key)
+                response_data = {
+                    'token': token.key,
+                    'user': UserSerializer(user).data  # Return user data if needed
+                }
+                return Response(data=response_data, status=status.HTTP_201_CREATED)
+            except Exception as e:
+                print("Error during response handling: ", str(e))
+                return Response(data={'error': 'Internal Server Error'}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
         else:
             print("serializer is not valid")
             print(serializer.errors)
