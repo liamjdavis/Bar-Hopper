@@ -6,9 +6,34 @@ const BarLogin = () => {
     const [password, setPassword] = useState('');
 
     const handleLogin = () => {
-        console.log('Email: ', email);
-        console.log('Password: ', password);
-        // Add your login logic here (e.g., API call)
+        // Prepare the data to be sent
+        const data = {
+            email: email,
+            password: password
+        };
+
+        // Make a POST request to the login endpoint
+        fetch('http://172.27.64.1:8000/api/barauth', {  // Replace with your actual API endpoint
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(data)
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.token) {
+                console.log('Login successful');
+                // Save the token and other necessary user data
+                // Navigate to the next screen
+            } else {
+                console.log('Login failed');
+                // Show an error message
+            }
+        })
+        .catch((error) => {
+            console.error('Error:', error);
+        });
     };
 
     return (

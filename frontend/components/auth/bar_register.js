@@ -10,11 +10,43 @@ const UserRegister = () => {
     const [password, setPassword] = useState('');
 
     const onChange = (field, value) => {
-
+        if (field === 'name') setName(value);
+        else if (field === 'email') setEmail(value);
+        else if (field === 'password') setPassword(value);
     };
 
     const onSubmit = async () => {
+        try {
+            let response = await fetch('http://172.27.64.1:8000/api/users', {  // Update with your backend URL
+                method: 'POST',
+                headers: {
+                    Accept: 'application/json',
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    name: name,
+                    email: email,
+                    password: password,
+                    user_type: 'user'  // Ensure you include user_type if required by your backend
+                }),
+            });
 
+            let json = await response.json();
+            console.log("JSON response:", json);
+
+            if (response.status === 201) {
+                // Registration successful
+                console.log("Registration Successful");
+                // Optionally, you can navigate to another screen or dispatch a success action
+            } else {
+                // Registration failed
+                console.log("Registration failed", json);
+                // Optionally, dispatch a failure action or display an alert
+            }
+        } catch (error) {
+            console.error(error);
+            // Handle network error or other exceptions
+        }
     };
 
     return (
