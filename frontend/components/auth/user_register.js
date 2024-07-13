@@ -1,8 +1,5 @@
 import React, { useState } from 'react';
 import { View, TextInput, Button, StyleSheet, Text } from 'react-native';
-import { useSelector, useDispatch } from 'react-redux';
-import { register } from '../../actions/auth';
-import { setAlert } from '../../actions/alert';
 
 const UserRegister = () => {
     const [name, setName] = useState('');
@@ -17,7 +14,7 @@ const UserRegister = () => {
 
     const onSubmit = async () => {
         try {
-            let response = await fetch('http://172.27.64.1:8000/api/users', {
+            let response = await fetch('http://172.27.64.1:8000/api/users', {  // Update with your backend URL
                 method: 'POST',
                 headers: {
                     Accept: 'application/json',
@@ -27,6 +24,7 @@ const UserRegister = () => {
                     name: name,
                     email: email,
                     password: password,
+                    user_type: 'user'  // Ensure you include user_type if required by your backend
                 }),
             });
 
@@ -35,15 +33,16 @@ const UserRegister = () => {
 
             if (response.status === 201) {
                 // Registration successful
-                // You can dispatch a success action here
                 console.log("Registration Successful");
+                // Optionally, you can navigate to another screen or dispatch a success action
             } else {
                 // Registration failed
-                // You can dispatch a failure action here
                 console.log("Registration failed", json);
+                // Optionally, dispatch a failure action or display an alert
             }
         } catch (error) {
             console.error(error);
+            // Handle network error or other exceptions
         }
     };
 
