@@ -4,55 +4,63 @@ from django.contrib.auth import get_user_model
 from django.db import transaction
 from .models import (
     UserProfile,
-    Friendship,
-    Bar,
     BarProfile,
-    BarFollow,
     PromotionPost,
     Comment
 )
+
+User = get_user_model()
 
 '''
 
 User Serializers
 
 '''
-User = get_user_model()
 
-
-class UserSerializer(serializers.ModelSerializer):
-    friends = serializers.SerializerMethodField()
+class CustomUserSerializer(serializers.ModelSerializer):
+    profile = serializers.SerializerMethodField()
 
     class Meta:
         model = User
-        fields = ['id', 'name', 'email', 'date', 'password', 'profile_picture', 'friends']
+        fields = ['id', 'name', 'email', 'password', 'profile_picture', 'user_type', 'profile']
         extra_kwargs = {'password': {'write_only': True, 'required': True}}
 
-    def get_friends(self, obj):
-        return [friend.email for friend in obj.get_friends()]
+    def get_profile(self, obj):
+        if obj.user_type == 'user':
+            return UserProfileSerializer(obj.profile).data
+        elif obj.user_type == 'bar':
+            return BarProfileSerializer(obj.profile).data
+        return None
 
     @transaction.atomic
     def create(self, validated_data):
-        print("User Serializer create()")
-        print("Validated data: ", validated_data)
+        user_type = validated_data.pop('user_type')
+        user = User.objects.create_user(user_type=user_type, **validated_data)
+        user.save()
 
-        user = User.objects.create_user(**validated_data)
-        print("User before tokenization ", user.__dict__)
-        print("User created, about to tokenize")
+        # Create profile based on user_type
+        if user_type == 'user':
+            UserProfile.objects.get_or_create(user=user)
+        elif user_type == 'bar':
+            BarProfile.objects.get_or_create(user=user)
 
+        # Check if user is saved in the database
+        try:
+            user_check = User.objects.get(email=user.email)
+        except User.DoesNotExist:
+            raise serializers.ValidationError({"error": "User not saved in database"})
+
+        # Create token
         try:
             token, created = Token.objects.get_or_create(user=user)
             if created:
                 print("Token created: ", token.key)
             else:
                 print("Token already exists for user: ", token.key)
-            print("User and Token creation successful")
 
-            # Ensuring transaction is committed
-            transaction.on_commit(lambda: print("Transaction committed successfully"))
             return user
+
         except Exception as e:
-            print("Error during token creation: ", str(e))
             raise serializers.ValidationError({"error": "Token creation failed"})
 
 class UserProfileSerializer(serializers.ModelSerializer):
@@ -60,48 +68,21 @@ class UserProfileSerializer(serializers.ModelSerializer):
         model = UserProfile
         fields = '__all__'
 
-class FriendshipSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Friendship
-        fields = ['id', 'user', 'friend']
-
-'''
-
-Bar Serializers
-
-'''
-class BarSerializer(serializers.ModelSerializer):
-    followers = serializers.SerializerMethodField()
-
-    class Meta:
-        model = Bar
-        fields = ['id', 'name', 'email', 'location', 'type', 'date', 'password', 'profile_picture']
-        extra_kwargs = {'password': {'write_only': True, 'required': True}}
-
-    def create(self, validated_data):
-        bar = Bar.objects.create_bar(**validated_data)
-        bar.save()
-        Token.objects.get_or_create(user=bar)
-        print("bar created")
-        return bar
-
-    def get_followers(self, obj):
-        return UserSerializer(obj.get_followers(), many=True)
-
 class BarProfileSerializer(serializers.ModelSerializer):
     class Meta:
         model = BarProfile
         fields = '__all__'
 
-class BarFollowSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = BarFollow
-        fields = ['id', 'user', 'bar']
+'''
+
+Promotion and Comment Serializers
+
+'''
 
 class PromotionPostSerializer(serializers.ModelSerializer):
     class Meta:
         model = PromotionPost
-        fields = ['id', 'bar', 'text', 'name', 'date', 'likes', 'post_comments', 'image']
+        fields = ['id', 'bar', 'text', 'date', 'likes', 'post_comments', 'image']
 
 class CommentSerializer(serializers.ModelSerializer):
     name = serializers.CharField(source='user.name', read_only=True)
@@ -114,4 +95,4 @@ class GetPostSerializer(serializers.ModelSerializer):
     post_comments = CommentSerializer(many=True)
     class Meta:
         model = PromotionPost
-        fields = ['id', 'bar', 'text', 'name', 'date', 'likes', 'post_comments']
+        fields = ['id', 'bar', 'text', 'date', 'likes', 'post_comments']

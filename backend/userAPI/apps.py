@@ -1,5 +1,6 @@
 from django.apps import AppConfig
+from django.db.backends.signals import connection_created
+from django.dispatch import receiver
 
-class UserapiConfig(AppConfig):
-    default_auto_field = 'django.db.models.BigAutoField'
+class userAPIConfig(AppConfig):
     name = 'userAPI'
