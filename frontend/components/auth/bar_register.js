@@ -4,10 +4,13 @@ import { useSelector, useDispatch } from 'react-redux';
 import { register } from '../../actions/auth';
 import { setAlert } from '../../actions/alert';
 
-const UserRegister = () => {
+import { useNavigation } from '@react-navigation/native';
+
+const BarRegister = () => {
     const [name, setName] = useState('');
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
+    const navigation = useNavigation();
 
     const onChange = (field, value) => {
         if (field === 'name') setName(value);
@@ -38,6 +41,7 @@ const UserRegister = () => {
                 // Registration successful
                 console.log("Registration Successful");
                 // Optionally, you can navigate to another screen or dispatch a success action
+                navigation.navigate('MainTabs');
             } else {
                 // Registration failed
                 console.log("Registration failed", json);
@@ -114,4 +118,4 @@ const styles = StyleSheet.create({
     },
 });
 
-export default UserRegister;
+export default BarRegister;

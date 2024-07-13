@@ -1,9 +1,11 @@
 import React, { useState } from 'react';
 import { View, TextInput, Button, StyleSheet, Text } from 'react-native';
+import { useNavigation } from '@react-navigation/native';
 
 const BarLogin = () => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
+    const navigation = useNavigation();
 
     const handleLogin = () => {
         // Prepare the data to be sent
@@ -26,6 +28,7 @@ const BarLogin = () => {
                 console.log('Login successful');
                 // Save the token and other necessary user data
                 // Navigate to the next screen
+                navigation.navigate('MainTabs');
             } else {
                 console.log('Login failed');
                 // Show an error message
