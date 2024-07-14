@@ -17,5 +17,5 @@ then in a new terminal, run
 ```
 cd frontend
 npm install
-npx react-native start
+npm run [ios/android]
 ```
