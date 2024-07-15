@@ -7,7 +7,7 @@ from rest_framework.response import Response
 from rest_framework.authentication import TokenAuthentication
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.authtoken.models import Token
-from rest_framework import status
+from rest_framework import status, generics, permissions, parsers
 
 from django.db import transaction
 
@@ -20,7 +20,8 @@ from .serializers import (
     BarProfileSerializer,
     PromotionPostSerializer,
     CommentSerializer,
-    GetPostSerializer
+    GetPostSerializer,
+    ProfilePictureSerializer
 )
 
 from .models import (
@@ -200,6 +201,34 @@ class single_BarProfile_View(APIView):
         except ObjectDoesNotExist:
             return Response(data={'error': "No profile found"}, status=status.HTTP_404_NOT_FOUND)
 
+'''
+
+Profile Picture
+
+'''
+
+class ProfilePictureView(APIView):
+    permission_classes = [permissions.IsAuthenticated]
+    parser_classes = [parsers.MultiPartParser, parsers.FormParser]
+
+    def get(self, request, *args, **kwargs):
+        user = request.user
+        serializer = ProfilePictureSerializer(user)
+        return Response(serializer.data)
+
+    def put(self, request, *args, **kwargs):
+        user = request.user
+        serializer = ProfilePictureSerializer(user, data=request.data, partial=True)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data)
+        return Response(serializer.errors, status=400)
+
+'''
+
+Posts, Likes and Comments
+
+'''
 
 class PostView(APIView):
     authentication_classes = (TokenAuthentication,)

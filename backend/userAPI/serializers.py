@@ -3,6 +3,7 @@ from rest_framework.authtoken.models import Token
 from django.contrib.auth import get_user_model
 from django.db import transaction
 from .models import (
+    CustomUser,
     UserProfile,
     BarProfile,
     PromotionPost,
@@ -72,6 +73,13 @@ class BarProfileSerializer(serializers.ModelSerializer):
     class Meta:
         model = BarProfile
         fields = '__all__'
+
+class ProfilePictureSerializer(serializers.ModelSerializer):
+    profile_picture = serializers.ImageField()
+
+    class Meta:
+        model = User
+        fields = ['profile_picture']
 
 '''
 

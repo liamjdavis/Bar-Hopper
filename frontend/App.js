@@ -1,9 +1,7 @@
 import React from 'react';
 import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, View } from 'react-native';
-
 import { Provider } from 'react-redux';
-
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 
@@ -14,7 +12,8 @@ import Register from './components/auth/register';
 import BarRegister from './components/auth/bar_register';
 import UserRegister from './components/auth/user_register';
 
-import NavBar, { IconProvider } from './components/layout/NavBar';
+import NavBar from './components/layout/NavBar'; // Update the path as needed
+import { IconProvider } from './components/layout/IconContext'; // Update the path as needed
 
 const Stack = createStackNavigator();
 
@@ -23,8 +22,8 @@ const MainTabNavigator = () => {
         <IconProvider>
             <NavBar />
         </IconProvider>
-    )
-}
+    );
+};
 
 const App = () => {
     return (
@@ -45,10 +44,10 @@ const App = () => {
 };
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#FFFFFF',
-  },
+    container: {
+        flex: 1,
+        backgroundColor: '#FFFFFF',
+    },
 });
 
 export default App;
