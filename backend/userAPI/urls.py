@@ -13,7 +13,8 @@ from .views import (
     single_BarProfile_View,
     PostView,
     LikeUnlikeView,
-    ProfilePictureView
+    ProfilePictureView,
+    ProfileView
 )
 
 urlpatterns = [
@@ -35,5 +36,7 @@ urlpatterns = [
     path('barprofiles', Bar_ProfilesView.as_view(), name='barprofile-list'),
     path('barprofile/<int:id>', single_BarProfile_View.as_view(), name='single-barprofile'),
 
-    path('profile_picture', ProfilePictureView.as_view(), name='profile-picture')
+    path('profile_picture', ProfilePictureView.as_view(), name='profile-picture'),
+
+    path('profile', ProfileView.as_view(), name='profile-detail'),
 ]

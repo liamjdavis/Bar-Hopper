@@ -226,6 +226,41 @@ class ProfilePictureView(APIView):
 
 '''
 
+Global Profile View
+
+'''
+
+from rest_framework.views import APIView
+from rest_framework.response import Response
+from rest_framework import status
+from django.core.exceptions import ObjectDoesNotExist
+
+class ProfileView(APIView):
+    authentication_classes = (TokenAuthentication,)
+    permission_classes = (IsAuthenticated,)
+
+    def get(self, request, *args, **kwargs):
+        user = request.user
+        if user.user_type == 'user':
+            try:
+                profile = user.profile
+                profile_data = UserProfileSerializer(profile).data
+            except ObjectDoesNotExist:
+                return Response(data={'error': "No user profile found"}, status=status.HTTP_404_NOT_FOUND)
+        elif user.user_type == 'bar':
+            try:
+                profile = user.bar_profile
+                profile_data = BarProfileSerializer(profile).data
+            except ObjectDoesNotExist:
+                return Response(data={'error': "No bar profile found"}, status=status.HTTP_404_NOT_FOUND)
+        else:
+            return Response(data={'error': "Invalid user type"}, status=status.HTTP_400_BAD_REQUEST)
+
+        return Response(data=profile_data, status=status.HTTP_200_OK)
+
+
+'''
+
 Posts, Likes and Comments
 
 '''

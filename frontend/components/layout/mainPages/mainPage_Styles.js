@@ -13,12 +13,7 @@ export default StyleSheet.create({
     centerContainer: {
         flex: 4,
         alignItems: 'center',
-    },
-    rightContainer: {
-        flex: 1,
-        justifyContent: 'center',
-        alignItems: 'flex-end',
-        paddingRight: 10,
+        paddingRight: '12.5%',
     },
     logo: {
         width: 50,

@@ -34,15 +34,6 @@ const Promos = () => {
 
                 {/* Promotions  Posts*/}
             </View>
-
-            <View style={styles.rightContainer}>
-                {/* Profile Button */}
-                <TouchableOpacity onPress={() => {
-                    // Handle press
-                }}>
-                    <Icon name="profile" size={30} color="#000" />
-                </TouchableOpacity>
-            </View>
         </View>
     );
 };

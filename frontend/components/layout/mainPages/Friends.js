@@ -32,15 +32,6 @@ const Friends = () => {
                 {/* Friends List */}
                 <Text style={styles.subHeaderText}>Friends</Text>
             </View>
-
-            <View style={styles.rightContainer}>
-                {/* Profile Button */}
-                <TouchableOpacity onPress={() => {
-                    // Handle press
-                }}>
-                    <Icon name="profile" size={30} color="#000" />
-                </TouchableOpacity>
-            </View>
         </View>
     );
 };

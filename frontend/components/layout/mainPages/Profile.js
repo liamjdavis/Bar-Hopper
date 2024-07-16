@@ -1,18 +1,34 @@
-import React from 'react';
-import { View, Text, TextInput, StyleSheet, Image, TouchableOpacity } from 'react-native';
-import Icon from 'react-native-vector-icons/FontAwesome';
-import MapView from 'react-native-maps';
+import React, { useContext } from 'react';
+import { View, Text, Image, StyleSheet } from 'react-native';
+import { IconContext } from '../IconContext';
+import { ProfileContext } from '../ProfileContext';
 
 import styles from './mainPage_Styles';
 
-const logo = require('../../../assets/logo.png')
+const Profile = () => {
+    // Use the contexts
+    const profilePicture = useContext(IconContext);
+    const profile = useContext(ProfileContext);
 
-const Home = () => {
     return (
         <View style={styles.container}>
-            <Text> Profile </Text>
+            <View style={styles.leftContainer}>
+                {/* Logo */}
+                <Image source={profilePicture} style={styles.logo} />
+            </View>
+
+            <View style={styles.centerContainer}>
+                <Text style={styles.headerText}>Profile</Text>
+
+                {/* Profile Picture */}
+                <Image source={profilePicture} style={styles.profilePicture} />
+
+                {/* Profile Attributes */}
+                <Text>Name: {profile.name}</Text>
+                {/* Add more attributes as needed */}
+            </View>
         </View>
     );
 };
 
-export default Home;
+export default Profile;
