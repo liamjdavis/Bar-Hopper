@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 import { View, TextInput, Button, StyleSheet, Text } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 
+import AsyncStorage from '@react-native-async-storage/async-storage';
+
 const UserRegister = () => {
     const [name, setName] = useState('');
     const [email, setEmail] = useState('');
@@ -36,6 +38,10 @@ const UserRegister = () => {
             if (response.status === 201) {
                 // Registration successful
                 console.log("Registration Successful");
+
+                // Store the token in AsyncStorage
+                await AsyncStorage.setItem('userToken', json.token);
+
                 // Optionally, you can navigate to another screen or dispatch a success action
                 navigation.navigate('MainTabs');
             } else {

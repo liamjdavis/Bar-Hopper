@@ -16,7 +16,7 @@ export const IconProvider = ({ children }) => {
                 const token = await AsyncStorage.getItem('token');
 
                 // Adjust the endpoint and headers as per your API setup
-                const response = await axios.get('172.27.61.1:8000/api/profile-picture/', {
+                const response = await axios.get('http://172.27.61.1:8000/api/profile-picture/', {
                     headers: {
                         Authorization: `Bearer ${token}`, // Replace with your authentication method
                     },

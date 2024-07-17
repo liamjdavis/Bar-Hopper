@@ -2,12 +2,14 @@ import React, { useState } from 'react';
 import { View, TextInput, Button, StyleSheet, Text } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 
+import AsyncStorage from '@react-native-async-storage/async-storage';
+
 const BarLogin = () => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const navigation = useNavigation();
 
-    const handleLogin = () => {
+    const handleLogin = async () => {
         // Prepare the data to be sent
         const data = {
             email: email,
@@ -23,10 +25,14 @@ const BarLogin = () => {
             body: JSON.stringify(data)
         })
         .then(response => response.json())
-        .then(data => {
+        .then(async (data) => {
             if (data.token) {
                 console.log('Login successful');
+
                 // Save the token and other necessary user data
+                // Store the token in AsyncStorage
+                await AsyncStorage.setItem('userToken', data.token);
+
                 // Navigate to the next screen
                 navigation.navigate('MainTabs');
             } else {

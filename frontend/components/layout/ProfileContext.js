@@ -6,30 +6,43 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 export const ProfileContext = createContext();
 
 export const ProfileProvider = ({ children }) => {
-    const [profile, setProfile] = useState({});
+    const [profile, setProfile] = useState(null);
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState(null);
 
     useEffect(() => {
         const fetchProfile = async () => {
             try {
-                const token = await AsyncStorage.getItem('token');
-                // Adjust the endpoint and headers as per your API setup
-                const response = await axios.get('172.27.61.1:8000/api/profile', {
+                console.log('Fetching Token')
+                const token = await AsyncStorage.getItem('userToken');
+                if (!token) {
+                    console.log('No token found');
+                }
+                console.log('Token:', token);
+
+                const response = await axios.get('http://172.27.61.1:8000/api/profile', {
                     headers: {
-                        Authorization: `Bearer ${token}`, // Replace with your authentication method
+                        Authorization: `Token ${token}`,
                     },
                 });
+
                 if (response.data) {
+                    console.log('Profile Data:', response.data);
                     setProfile(response.data);
+                } else {
+                    console.log('No profile data found');
                 }
             } catch (error) {
-                console.error('Error fetching profile', error);
+                console.log('Error fetching profile', error);
+                setError(error.message);
+            } finally {
+                setLoading(false);
             }
         };
 
         fetchProfile();
     }, []);
 
-    // Provide the profile to the children components
     return (
         <ProfileContext.Provider value={profile}>
             {children}

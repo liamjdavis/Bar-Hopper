@@ -10,6 +10,8 @@ const Profile = () => {
     const profilePicture = useContext(IconContext);
     const profile = useContext(ProfileContext);
 
+    console.log('Profile: ', profile);
+
     return (
         <View style={styles.container}>
             <View style={styles.leftContainer}>
@@ -24,7 +26,6 @@ const Profile = () => {
                 <Image source={profilePicture} style={styles.profilePicture} />
 
                 {/* Profile Attributes */}
-                <Text>Name: {profile.name}</Text>
                 {/* Add more attributes as needed */}
             </View>
         </View>

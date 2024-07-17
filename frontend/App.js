@@ -14,14 +14,17 @@ import UserRegister from './components/auth/user_register';
 
 import NavBar from './components/layout/NavBar'; // Update the path as needed
 import { IconProvider } from './components/layout/IconContext'; // Update the path as needed
+import { ProfileProvider } from './components/layout/ProfileContext';
 
 const Stack = createStackNavigator();
 
 const MainTabNavigator = () => {
     return (
-        <IconProvider>
-            <NavBar />
-        </IconProvider>
+        <ProfileProvider>
+            <IconProvider>
+                <NavBar />
+            </IconProvider>
+        </ProfileProvider>
     );
 };
 
