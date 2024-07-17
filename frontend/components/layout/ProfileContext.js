@@ -20,11 +20,13 @@ export const ProfileProvider = ({ children }) => {
                 }
                 console.log('Token:', token);
 
-                const response = await axios.get('http://172.27.61.1:8000/api/profile', {
+                console.log('Fetching Profile');
+                const response = await axios.get('http://172.27.64.1:8000/api/profile', {
                     headers: {
                         Authorization: `Token ${token}`,
                     },
                 });
+                console.log('Response:', response.data);
 
                 if (response.data) {
                     console.log('Profile Data:', response.data);
