@@ -39,8 +39,9 @@ const UserRegister = () => {
                 // Registration successful
                 console.log("Registration Successful");
 
-                // Store the token in AsyncStorage
+                // Store the token in AsyncStorage and user type
                 await AsyncStorage.setItem('userToken', json.token);
+                await AsyncStorage.setItem('userType', 'user');
 
                 // Optionally, you can navigate to another screen or dispatch a success action
                 navigation.navigate('MainTabs');

@@ -45,6 +45,7 @@ const BarRegister = () => {
 
                 // Store the token in AsyncStorage
                 await AsyncStorage.setItem('userToken', json.token);
+                await AsyncStorage.setItem('userType', 'user');
 
                 // Optionally, you can navigate to another screen or dispatch a success action
                 navigation.navigate('MainTabs');

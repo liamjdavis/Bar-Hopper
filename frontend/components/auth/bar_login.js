@@ -32,6 +32,7 @@ const BarLogin = () => {
                 // Save the token and other necessary user data
                 // Store the token in AsyncStorage
                 await AsyncStorage.setItem('userToken', data.token);
+                await AsyncStorage.setItem('userType', 'user');
 
                 // Navigate to the next screen
                 navigation.navigate('MainTabs');

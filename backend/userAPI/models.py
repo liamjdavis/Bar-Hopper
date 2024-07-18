@@ -75,6 +75,7 @@ class CustomUser(AbstractBaseUser):
 
 class UserProfile(models.Model):
     user = models.OneToOneField(CustomUser, on_delete=models.CASCADE, related_name='profile')
+    name = models.CharField(max_length=255, blank=True)
     bio = models.TextField(blank=True)
     location = models.CharField(max_length=255, blank=True)
 
@@ -135,6 +136,7 @@ def create_user_profile(sender, instance, created, **kwargs):
 
 class BarProfile(models.Model):
     bar = models.OneToOneField(CustomUser, on_delete=models.CASCADE, related_name='bar_profile')
+    name = models.CharField(max_length=255, blank=True)
     location = models.CharField(max_length=255, blank=True)
     hours = models.CharField(max_length=255, blank=True)
     future_promotions = models.CharField(max_length=255, blank=True)

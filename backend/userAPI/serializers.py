@@ -33,7 +33,6 @@ class CustomUserSerializer(serializers.ModelSerializer):
             return BarProfileSerializer(obj.profile).data
         return None
 
-    @transaction.atomic
     def create(self, validated_data):
         user_type = validated_data.pop('user_type')
         user = User.objects.create_user(user_type=user_type, **validated_data)

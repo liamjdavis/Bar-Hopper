@@ -32,6 +32,7 @@ const UserLogin = () => {
 
                 // Store the token in AsyncStorage
                 await AsyncStorage.setItem('userToken', data.token);
+                await AsyncStorage.setItem('userType', 'user');
 
                 // Navigate to the next screen
                 navigation.navigate('MainTabs');

@@ -42,4 +42,29 @@ export default StyleSheet.create({
         width: '100%',
         height: '75%',
     },
+    profilePageContainer: {
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center',
+    },
+    profilePictureContainer: {
+        flex: 3,
+        justifyContent: 'center',
+        alignItems: 'center',
+    },
+    profilePicture: {
+        width: '30%',
+        aspectRatio: 1,
+    },
+    profileAttributesContainer: {
+        flex: 2,
+        justifyContent: 'flex-start',
+        alignItems: 'center',
+    },
+    attributeText: {
+        fontSize: 35,
+        fontWeight: 'bold',
+        marginTop: 10,
+        color: 'black',
+    },
 });
