@@ -22,7 +22,7 @@ const BarRegister = () => {
 
     const onSubmit = async () => {
         try {
-            let response = await fetch('http://172.27.64.1:8000/api/users', {  // Update with your backend URL
+            let response = await fetch('http://192.168.16.53:8000/api/bars', {  // Update with your backend URL
                 method: 'POST',
                 headers: {
                     Accept: 'application/json',
@@ -32,7 +32,7 @@ const BarRegister = () => {
                     name: name,
                     email: email,
                     password: password,
-                    user_type: 'user'  // Ensure you include user_type if required by your backend
+                    user_type: 'bar'  // Ensure you include user_type if required by your backend
                 }),
             });
 
@@ -45,7 +45,7 @@ const BarRegister = () => {
 
                 // Store the token in AsyncStorage
                 await AsyncStorage.setItem('userToken', json.token);
-                await AsyncStorage.setItem('userType', 'user');
+                await AsyncStorage.setItem('userType', 'bar');
 
                 // Optionally, you can navigate to another screen or dispatch a success action
                 navigation.navigate('MainTabs');

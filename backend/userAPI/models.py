@@ -74,7 +74,7 @@ class CustomUser(AbstractBaseUser):
         return []
 
 class UserProfile(models.Model):
-    user = models.OneToOneField(CustomUser, on_delete=models.CASCADE, related_name='profile')
+    user = models.OneToOneField(CustomUser, on_delete=models.CASCADE, related_name='user_profile')
     name = models.CharField(max_length=255, blank=True)
     bio = models.TextField(blank=True)
     location = models.CharField(max_length=255, blank=True)
@@ -126,20 +126,12 @@ class Comment(models.Model):
 from django.db.models.signals import post_save
 from django.dispatch import receiver
 
-@receiver(post_save, sender=CustomUser)
-def create_user_profile(sender, instance, created, **kwargs):
-    if created:
-        if instance.user_type == 'user':
-            UserProfile.objects.create(user=instance)
-        elif instance.user_type == 'bar':
-            BarProfile.objects.create(bar=instance)
-
 class BarProfile(models.Model):
-    bar = models.OneToOneField(CustomUser, on_delete=models.CASCADE, related_name='bar_profile')
+    user = models.OneToOneField(CustomUser, on_delete=models.CASCADE, related_name='bar_profile')
     name = models.CharField(max_length=255, blank=True)
     location = models.CharField(max_length=255, blank=True)
     hours = models.CharField(max_length=255, blank=True)
     future_promotions = models.CharField(max_length=255, blank=True)
 
     def __str__(self):
-        return self.bar.bar_name
+        return self.user.name

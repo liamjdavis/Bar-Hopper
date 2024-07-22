@@ -21,7 +21,7 @@ export const ProfileProvider = ({ children }) => {
                 console.log('Token:', token);
 
                 console.log('Fetching Profile');
-                const response = await axios.get('http://172.27.64.1:8000/api/profile', {
+                const response = await axios.get('http://192.168.16.53:8000/api/profile', {
                     headers: {
                         Authorization: `Token ${token}`,
                     },

@@ -17,7 +17,7 @@ const BarLogin = () => {
         };
 
         // Make a POST request to the login endpoint
-        fetch('http://172.27.64.1:8000/api/barauth', {  // Replace with your actual API endpoint
+        fetch('http://192.168.16.53:8000/api/barauth', {  // Replace with your actual API endpoint
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -32,7 +32,7 @@ const BarLogin = () => {
                 // Save the token and other necessary user data
                 // Store the token in AsyncStorage
                 await AsyncStorage.setItem('userToken', data.token);
-                await AsyncStorage.setItem('userType', 'user');
+                await AsyncStorage.setItem('userType', 'bar');
 
                 // Navigate to the next screen
                 navigation.navigate('MainTabs');

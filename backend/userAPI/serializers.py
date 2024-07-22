@@ -12,37 +12,27 @@ from .models import (
 
 User = get_user_model()
 
-'''
-
-User Serializers
-
-'''
-
 class CustomUserSerializer(serializers.ModelSerializer):
     profile = serializers.SerializerMethodField()
 
     class Meta:
-        model = User
+        model = CustomUser
         fields = ['id', 'name', 'email', 'password', 'profile_picture', 'user_type', 'profile']
         extra_kwargs = {'password': {'write_only': True, 'required': True}}
 
     def get_profile(self, obj):
         if obj.user_type == 'user':
-            return UserProfileSerializer(obj.profile).data
+            return UserProfileSerializer(obj.user_profile).data
         elif obj.user_type == 'bar':
-            return BarProfileSerializer(obj.profile).data
+            return BarProfileSerializer(obj.bar_profile).data
         return None
 
+    @transaction.atomic
     def create(self, validated_data):
         user_type = validated_data.pop('user_type')
+        print("User type: ", user_type)
         user = User.objects.create_user(user_type=user_type, **validated_data)
         user.save()
-
-        # Create profile based on user_type
-        if user_type == 'user':
-            UserProfile.objects.get_or_create(user=user)
-        elif user_type == 'bar':
-            BarProfile.objects.get_or_create(user=user)
 
         # Check if user is saved in the database
         try:
@@ -57,11 +47,25 @@ class CustomUserSerializer(serializers.ModelSerializer):
                 print("Token created: ", token.key)
             else:
                 print("Token already exists for user: ", token.key)
+        except Exception as e:
+            raise serializers.ValidationError({"error": "Token creation failed", "details": str(e)})
+
+        # Check if profile is created
+        try:
+            if user_type == 'user':
+                print("Creating user profile")
+                profile, created = UserProfile.objects.get_or_create(user=user)
+            elif user_type == 'bar':
+                profile, created = BarProfile.objects.get_or_create(user=user)
+
+            if not created:
+                raise serializers.ValidationError({"error": "Profile not created"})
+            else:
+                print("Profile created: ", profile)
 
             return user
-
         except Exception as e:
-            raise serializers.ValidationError({"error": "Token creation failed"})
+            raise serializers.ValidationError({"error": "Profile creation failed", "details": str(e)})
 
 class UserProfileSerializer(serializers.ModelSerializer):
     class Meta:
@@ -79,12 +83,6 @@ class ProfilePictureSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
         fields = ['profile_picture']
-
-'''
-
-Promotion and Comment Serializers
-
-'''
 
 class PromotionPostSerializer(serializers.ModelSerializer):
     class Meta:

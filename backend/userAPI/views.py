@@ -133,12 +133,29 @@ Bar Views
 
 class BarView(APIView):
     def post(self, request):
+        print(request.data)
         serializer = CustomUserSerializer(data=request.data)
 
         if serializer.is_valid():
-            serializer.save()
-            token = Token.objects.get(user_id=serializer.data.get('id'))
-            return Response(data={'token': token.key}, status=status.HTTP_201_CREATED)
+            bar = serializer.save()
+            print("Bar saved in views: ", bar)
+
+            try:
+                token = Token.objects.get(user=bar)
+                print("Token retrieved: ", token.key)
+
+                response_data = {
+                    'token': token.key,
+                    'user': CustomUserSerializer(bar, context={'request': request}).data
+                }
+                print("Response data: ", response_data)
+
+                return Response(data=response_data, status=status.HTTP_201_CREATED)
+
+            except Exception as e:
+                print("Error during response handling: ", str(e))
+                return Response(data={'error': 'Internal Server Error'}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
         else:
             return Response(data=serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
@@ -243,13 +260,13 @@ class ProfileView(APIView):
         user = request.user
         if user.user_type == 'user':
             try:
-                profile = user.profile
+                profile = user.user_profile  # Use related_name 'user_profile'
                 profile_data = UserProfileSerializer(profile).data
             except ObjectDoesNotExist:
                 return Response(data={'error': "No user profile found"}, status=status.HTTP_404_NOT_FOUND)
         elif user.user_type == 'bar':
             try:
-                profile = user.bar_profile
+                profile = user.bar_profile  # Use related_name 'bar_profile'
                 profile_data = BarProfileSerializer(profile).data
             except ObjectDoesNotExist:
                 return Response(data={'error': "No bar profile found"}, status=status.HTTP_404_NOT_FOUND)

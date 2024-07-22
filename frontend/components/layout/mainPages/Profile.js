@@ -20,6 +20,7 @@ const Profile = () => {
     useEffect(() => {
         const fetchUserType = async () => {
             const type = await AsyncStorage.getItem('userType');
+            console.log('User Type: ', type);
             setUserType(type);
         };
 
@@ -38,7 +39,11 @@ const Profile = () => {
             {/* Profile Attributes */}
             <View style={styles.profileAttributesContainer}>
                 <Text style={styles.attributeText}>Name: {profile.name}</Text>
-                {userType === 'user' && <Text style={styles.attributeText}>Bio: {profile.bio}</Text>}
+                {userType === 'user' && (
+                    <>
+                        <Text style={styles.attributeText}>Bio: {profile.bio}</Text>
+                    </>
+                )}
                 {userType === 'bar' && (
                     <>
                         <Text style={styles.attributeText}>Location: {profile.location}</Text>

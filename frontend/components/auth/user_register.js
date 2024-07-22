@@ -18,7 +18,7 @@ const UserRegister = () => {
 
     const onSubmit = async () => {
         try {
-            let response = await fetch('http://172.27.64.1:8000/api/users', {  // Update with your backend URL
+            let response = await fetch('http://192.168.16.53:8000/api/users', {  // Update with your backend URL
                 method: 'POST',
                 headers: {
                     Accept: 'application/json',

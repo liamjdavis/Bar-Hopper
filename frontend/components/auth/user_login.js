@@ -17,7 +17,7 @@ const UserLogin = () => {
         };
 
         // Make a POST request to the login endpoint
-        fetch('http://172.27.64.1:8000/api/userauth', {  // Replace with your actual API endpoint
+        fetch('http://192.168.16.53:8000/api/userauth', {  // Replace with your actual API endpoint
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
