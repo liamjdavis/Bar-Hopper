@@ -1406,10 +1406,10 @@
     dotenv-expand "~11.0.6"
     getenv "^1.0.0"
 
-"@expo/fingerprint@^0.10.0":
-  version "0.10.0"
-  resolved "https://registry.npmjs.org/@expo/fingerprint/-/fingerprint-0.10.0.tgz"
-  integrity sha512-yW2WV4YUGaak4K6MCJHR0sXRrOKA7IWtWsK3uG640eSug55t5VQBoF5KPx7n4+60QUKYKmw7u3vFZZb96OZFlA==
+"@expo/fingerprint@^0.10.1":
+  version "0.10.1"
+  resolved "https://registry.npmjs.org/@expo/fingerprint/-/fingerprint-0.10.1.tgz"
+  integrity sha512-0d0lniPAm6tOZinoj6d8JPozdeaYL12hNW2lZy76YaRRfBoAVGD1xwx6pilRumgKJGFL2SxOGnRoC4ZarZel4g==
   dependencies:
     "@expo/spawn-async" "^1.7.2"
     chalk "^4.1.2"
@@ -1902,10 +1902,10 @@
   resolved "https://registry.npmjs.org/@pkgjs/parseargs/-/parseargs-0.11.0.tgz"
   integrity sha512-+1VkjdD0QBLPodGrJUeqarH8VAIvQODIbwh9XpP5Syisf7YoQgsJKPNFoqqLQlu+VQ/tVSshMR6loPMn8U+dPg==
 
-"@react-native-async-storage/async-storage@^1.24.0":
-  version "1.24.0"
-  resolved "https://registry.npmjs.org/@react-native-async-storage/async-storage/-/async-storage-1.24.0.tgz"
-  integrity sha512-W4/vbwUOYOjco0x3toB8QCr7EjIP6nE9G7o8PMguvvjYT5Awg09lyV4enACRx4s++PPulBiBSjL0KTFx2u0Z/g==
+"@react-native-async-storage/async-storage@^1.23.1":
+  version "1.23.1"
+  resolved "https://registry.npmjs.org/@react-native-async-storage/async-storage/-/async-storage-1.23.1.tgz"
+  integrity sha512-Qd2kQ3yi6Y3+AcUlrHxSLlnBvpdCEMVGFlVBneVOjaFaPU61g1huc38g339ysXspwY1QZA2aNhrk/KlHGO+ewA==
   dependencies:
     merge-options "^3.0.4"
 
@@ -3947,15 +3947,15 @@ expo-updates-interface@~0.16.2:
   resolved "https://registry.npmjs.org/expo-updates-interface/-/expo-updates-interface-0.16.2.tgz"
   integrity sha512-929XBU70q5ELxkKADj1xL0UIm3HvhYhNAOZv5DSk7rrKvLo7QDdPyl+JVnwZm9LrkNbH4wuE2rLoKu1KMgZ+9A==
 
-expo-updates@^0.25.19:
-  version "0.25.19"
-  resolved "https://registry.npmjs.org/expo-updates/-/expo-updates-0.25.19.tgz"
-  integrity sha512-jogDCmy/RveTGMhnJfffBFiUIHNsMlo4JUtcZvBKHQRzdNSzkwqgXtIgYevFACKZKqYDfpXyy/jxneUsbXi8fw==
+expo-updates@^0.25.20:
+  version "0.25.20"
+  resolved "https://registry.npmjs.org/expo-updates/-/expo-updates-0.25.20.tgz"
+  integrity sha512-EfxRZDPNUWFXTsjn4Ii+AwIp/KLHXGKG59R8kyWzz/nHeMxXqGUDQF79qcgXcaq5lOMUpeGNlZqOBGho9cvUEg==
   dependencies:
     "@expo/code-signing-certificates" "0.0.5"
     "@expo/config" "~9.0.0-beta.0"
     "@expo/config-plugins" "~8.0.8"
-    "@expo/fingerprint" "^0.10.0"
+    "@expo/fingerprint" "^0.10.1"
     "@expo/spawn-async" "^1.7.2"
     arg "4.1.0"
     chalk "^4.1.2"
@@ -6887,6 +6887,11 @@ react-native-gesture-handler@^2.16.1, "react-native-gesture-handler@>= 1.0.0":
     lodash "^4.17.21"
     prop-types "^15.7.2"
 
+react-native-image-picker@^7.1.2:
+  version "7.1.2"
+  resolved "https://registry.npmjs.org/react-native-image-picker/-/react-native-image-picker-7.1.2.tgz"
+  integrity sha512-b5y5nP60RIPxlAXlptn2QwlIuZWCUDWa/YPUVjgHc0Ih60mRiOg1PSzf0IjHSLeOZShCpirpvSPGnDExIpTRUg==
+
 react-native-maps@^1.14.0:
   version "1.14.0"
   resolved "https://registry.npmjs.org/react-native-maps/-/react-native-maps-1.14.0.tgz"
@@ -6894,10 +6899,10 @@ react-native-maps@^1.14.0:
   dependencies:
     "@types/geojson" "^7946.0.13"
 
-"react-native-safe-area-context@>= 3.0.0", react-native-safe-area-context@4.10.1:
-  version "4.10.1"
-  resolved "https://registry.npmjs.org/react-native-safe-area-context/-/react-native-safe-area-context-4.10.1.tgz"
-  integrity sha512-w8tCuowDorUkPoWPXmhqosovBr33YsukkwYCDERZFHAxIkx6qBadYxfeoaJ91nCQKjkNzGrK5qhoNOeSIcYSpA==
+react-native-safe-area-context@^4.10.5, "react-native-safe-area-context@>= 3.0.0":
+  version "4.10.5"
+  resolved "https://registry.npmjs.org/react-native-safe-area-context/-/react-native-safe-area-context-4.10.5.tgz"
+  integrity sha512-Wyb0Nqw2XJ6oZxW/cK8k5q7/UAhg/wbEG6UVf89rQqecDZTDA5ic//P9J6VvJRVZerzGmxWQpVuM7f+PRYUM4g==
 
 "react-native-screens@>= 3.0.0", react-native-screens@3.31.1:
   version "3.31.1"
