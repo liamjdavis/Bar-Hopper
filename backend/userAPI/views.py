@@ -121,7 +121,7 @@ class UserProfile_View(APIView):
         except ObjectDoesNotExist:
             return Response(data={'error': "No profile found"}, status=status.HTTP_404_NOT_FOUND)
 
-        serializer = BarProfileSerializer(profile, data=request.data)
+        serializer = UserProfileSerializer(profile, data=request.data)
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data, status=status.HTTP_200_OK)
