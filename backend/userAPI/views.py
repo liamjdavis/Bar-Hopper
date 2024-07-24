@@ -115,6 +115,18 @@ class UserProfile_View(APIView):
         request.user.delete()
         return Response(data={'msg': "Profile and user deleted"}, status= status.HTTP_204_NO_CONTENT)
 
+    def put(self, request, *args, **kwargs):
+        try:
+            profile = request.user.user_profile
+        except ObjectDoesNotExist:
+            return Response(data={'error': "No profile found"}, status=status.HTTP_404_NOT_FOUND)
+
+        serializer = BarProfileSerializer(profile, data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_200_OK)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
 class single_UserProfile_View(APIView):
     def get(self, request, *args, **kwargs):
         try:
@@ -207,6 +219,18 @@ class BarProfile_View(APIView):
     def delete(self, request):
         request.user.delete()
         return Response(data={'msg': "Profile and user deleted"}, status= status.HTTP_204_NO_CONTENT)
+
+    def put(self, request, *args, **kwargs):
+        try:
+            profile = request.user.bar_profile
+        except ObjectDoesNotExist:
+            return Response(data={'error': "No profile found"}, status=status.HTTP_404_NOT_FOUND)
+
+        serializer = BarProfileSerializer(profile, data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_200_OK)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 class single_BarProfile_View(APIView):
     def get(self, request, *args, **kwargs):

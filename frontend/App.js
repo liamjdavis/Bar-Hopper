@@ -12,6 +12,8 @@ import Register from './components/auth/register';
 import BarRegister from './components/auth/bar_register';
 import UserRegister from './components/auth/user_register';
 
+import ChangeProfile from './components/layout/mainPages/profileChange/changeProfile'; // Update the path as needed
+
 import NavBar from './components/layout/NavBar'; // Update the path as needed
 import { IconProvider } from './components/layout/IconContext'; // Update the path as needed
 import { ProfileProvider } from './components/layout/ProfileContext';
@@ -31,17 +33,22 @@ const MainTabNavigator = () => {
 const App = () => {
     return (
         <View style={styles.container}>
-            <NavigationContainer>
-                <Stack.Navigator initialRouteName="Landing">
-                    <Stack.Screen name="Landing" component={Landing} options={{ headerShown: false }} />
-                    <Stack.Screen name="MainTabs" component={MainTabNavigator} />
-                    <Stack.Screen name="BarLogin" component={BarLogin} />
-                    <Stack.Screen name="UserLogin" component={UserLogin} />
-                    <Stack.Screen name="Register" component={Register} />
-                    <Stack.Screen name="BarRegister" component={BarRegister} />
-                    <Stack.Screen name="UserRegister" component={UserRegister} />
-                </Stack.Navigator>
-            </NavigationContainer>
+            <ProfileProvider>
+                <IconProvider>
+                    <NavigationContainer>
+                        <Stack.Navigator initialRouteName="Landing">
+                            <Stack.Screen name="Landing" component={Landing} options={{ headerShown: false }} />
+                            <Stack.Screen name="MainTabs" component={MainTabNavigator} />
+                            <Stack.Screen name="BarLogin" component={BarLogin} />
+                            <Stack.Screen name="UserLogin" component={UserLogin} />
+                            <Stack.Screen name="Register" component={Register} />
+                            <Stack.Screen name="BarRegister" component={BarRegister} />
+                            <Stack.Screen name="UserRegister" component={UserRegister} />
+                            <Stack.Screen name="ChangeProfile" component={ChangeProfile} />
+                        </Stack.Navigator>
+                    </NavigationContainer>
+                </IconProvider>
+            </ProfileProvider>
         </View>
     );
 };

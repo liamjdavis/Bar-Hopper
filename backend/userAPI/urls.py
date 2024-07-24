@@ -30,11 +30,11 @@ urlpatterns = [
 
     path('userprofile', UserProfile_View.as_view(), name='userprofile-detail'),
     path('userprofiles', Users_ProfilesView.as_view(), name='userprofile-list'),
-    path('userprofile/<int:id>', single_UserProfile_View.as_view(), name='single-userprofile'),
+    path('user/<int:id>', single_UserProfile_View.as_view(), name='single-userprofile'),
 
     path('barprofile', BarProfile_View.as_view(), name='barprofile-detail'),
     path('barprofiles', Bar_ProfilesView.as_view(), name='barprofile-list'),
-    path('barprofile/<int:id>', single_BarProfile_View.as_view(), name='single-barprofile'),
+    path('bar/<int:id>', single_BarProfile_View.as_view(), name='single-barprofile'),
 
     path('profile_picture', ProfilePictureView.as_view(), name='profile-picture'),
 

@@ -44,6 +44,7 @@ const Profile = () => {
     const handleChangeProfile = () => {
         // Handle profile change logic here
         console.log('Change Profile');
+        navigation.navigate('ChangeProfile');
     };
 
     // Placeholder function for handling profile picture change
