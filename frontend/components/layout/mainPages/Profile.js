@@ -1,14 +1,10 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { View, Text, Image, StyleSheet, TouchableOpacity } from 'react-native';
-
-import { launchCamera, launchImageLibrary } from 'react-native-image-picker';
-
+import * as ImagePicker from 'expo-image-picker';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { IconContext } from '../IconContext';
 import { ProfileContext } from '../ProfileContext';
-
 import { useNavigation } from '@react-navigation/native';
-
 import styles from './mainPage_Styles';
 
 const logo = require('../../../assets/logo.png')
@@ -17,11 +13,12 @@ const Profile = () => {
     const navigation = useNavigation();
 
     // Use the contexts
-    const profilePicture = useContext(IconContext);
+    const profilePictureContext = useContext(IconContext);
     const profile = useContext(ProfileContext);
 
     // State for user type
     const [userType, setUserType] = useState('');
+    const [profilePicture, setProfilePicture] = useState(profilePictureContext);
 
     // Fetch user type from AsyncStorage
     useEffect(() => {
@@ -32,6 +29,16 @@ const Profile = () => {
         };
 
         fetchUserType();
+    }, []);
+
+    // Request permissions
+    useEffect(() => {
+        (async () => {
+            const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync();
+            if (status !== 'granted') {
+                alert('Sorry, we need camera roll permissions to make this work!');
+            }
+        })();
     }, []);
 
     // Logout handler
@@ -47,32 +54,18 @@ const Profile = () => {
         navigation.navigate('ChangeProfile');
     };
 
-    // Placeholder function for handling profile picture change
-    const handleChangeProfilePicture = () => {
-        const options = {
-            title: 'Select Profile Picture',
-            storageOptions: {
-                skipBackup: true,
-                path: 'images',
-            },
-        };
-
-        // Use launchImageLibrary
-        launchImageLibrary(options, (response) => {
-            if (response.didCancel) {
-                console.log('User cancelled image picker');
-            } else if (response.error) {
-                console.log('ImagePicker Error: ', response.error);
-            } else {
-                const source = { uri: response.assets[0].uri };
-                // You can also display the image using data:
-                // const source = { uri: 'data:image/jpeg;base64,' + response.assets[0].base64 };
-
-                // Here, you might want to upload the image to your server,
-                // or directly set the state to display the selected image on the page.
-                console.log(source);
-            }
+    // Handle profile picture change
+    const pickImage = async () => {
+        let result = await ImagePicker.launchImageLibraryAsync({
+            mediaTypes: ImagePicker.MediaTypeOptions.All,
+            allowsEditing: true,
+            aspect: [4, 3],
+            quality: 1,
         });
+
+        if (!result.canceled) {
+            setProfilePicture({ uri: result.assets[0].uri });
+        }
     };
 
     console.log('Profile: ', profile);
@@ -80,7 +73,7 @@ const Profile = () => {
     return (
         <View style={styles.profilePageContainer}>
             {/* Profile Picture */}
-            <TouchableOpacity style={styles.profilePictureContainer} onPress={handleChangeProfilePicture}>
+            <TouchableOpacity style={styles.profilePictureContainer} onPress={pickImage}>
                 <Image source={profilePicture} style={styles.profilePicture} />
             </TouchableOpacity>
 
