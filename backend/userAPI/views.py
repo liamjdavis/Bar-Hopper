@@ -94,7 +94,11 @@ class GetAuthUserView(APIView):
 
 class Users_ProfilesView(APIView):
     def get(self, request):
-        user_profiles = UserProfile.objects.all()
+        search_query = request.query_params.get('search', None)
+        if search_query:
+            user_profiles = UserProfile.objects.filter(name__icontains=search_query)
+        else:
+            user_profiles = UserProfile.objects.all()
         user_data = UserProfileSerializer(user_profiles, many=True).data
         return Response(data=user_data, status=status.HTTP_200_OK)
 
