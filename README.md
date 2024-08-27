@@ -28,7 +28,6 @@ npm run [ios/android]
 - All Backend Endpoints
 
 ## Features to Build
-- Setting Location
 - Frontend for Promotion Posts, Likes, and Comments
 - Users setting location
 - Promotion Post Feed
