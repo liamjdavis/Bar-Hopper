@@ -19,3 +19,23 @@ cd frontend
 npm install
 npm run [ios/android]
 ```
+
+## Features Built
+- User Authentication (Both Bars and Users)
+- All profile attributes
+- Profile Pictures
+- Following and Friending
+- All Backend Endpoints
+
+## Features to Build
+- Setting Location
+- Frontend for Promotion Posts, Likes, and Comments
+- Users setting location
+- Promotion Post Feed
+- Dockerize Backend and Frontend for Security and Scalability
+- Deploy on Server
+
+## Tech Stack
+- React Native for Frontend
+- Django for Backend
+- SQLite for Database(Directly Integrated with Django)
